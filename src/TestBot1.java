@@ -73,7 +73,7 @@ public class TestBot1 extends DefaultBWListener {
         int i = 0;
         game.drawTextScreen(200, 25, "Buildings:");
         for (String buildingName : buildings){
-            game.drawTextScreen(220, 40 + (i * 15), buildingName + " - " + builders.get(i));
+            game.drawTextScreen(220, 40 + (i * 15), buildingName + " - " + builders.get(i).getType());
             i++;
         }
         //---------//
@@ -123,7 +123,7 @@ public class TestBot1 extends DefaultBWListener {
                     //SCV builds Suply
                     boolean buildingSuply = false;
                     for (String buildingName : buildings) {
-                        if (buildingName.equals("Suply")) buildingSuply = true;
+                        if (buildingName.equals("Suply Depot")) buildingSuply = true;
                     }
                     if ((!buildingSuply) && (self.supplyTotal() - self.supplyUsed() <= 2) && (self.minerals() >= 100)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation());
