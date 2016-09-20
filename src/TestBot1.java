@@ -23,6 +23,8 @@ public class TestBot1 extends DefaultBWListener {
     @Override
     public void onStart() {
         game = mirror.getGame();
+        game.enableFlag(1);
+        game.setLocalSpeed(20);
         self = game.getPlayer(2);
 
         //Use BWTA to analyze map
