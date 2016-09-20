@@ -2,6 +2,9 @@ import bwapi.*;
 import bwta.BWTA;
 import bwta.BaseLocation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TestBot1 extends DefaultBWListener {
 
     private Mirror mirror = new Mirror();
@@ -9,6 +12,8 @@ public class TestBot1 extends DefaultBWListener {
     private Game game;
 
     private Player self;
+
+    private Map<String, Integer> botsUnits;
 
     public void run() {
         mirror.getModule().setEventListener(this);
@@ -26,6 +31,10 @@ public class TestBot1 extends DefaultBWListener {
         game.enableFlag(1);
         game.setLocalSpeed(20);
         self = game.self();
+
+        botsUnits = new HashMap<String, Integer>();
+        botsUnits.put("SCV", 4);
+        botsUnits.put("ComandCenter", 4);
 
         //Use BWTA to analyze map
         //This may take a few minutes if the map is processed first time!
@@ -49,7 +58,7 @@ public class TestBot1 extends DefaultBWListener {
     public void onFrame() {
         //game.setTextSize(10);
         game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
-        game.drawTextScreen(20, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies");
+        game.drawTextScreen(140, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies");
 
         StringBuilder units = new StringBuilder("My units:\n");
 
@@ -58,8 +67,24 @@ public class TestBot1 extends DefaultBWListener {
             units.append(myUnit.getType()).append(" ").append(myUnit.getTilePosition()).append("\n");
 
             //if there's enough minerals, train an SCV
-            if (myUnit.getType() == UnitType.Terran_Command_Center && self.minerals() >= 50) {
-                myUnit.train(UnitType.Terran_SCV);
+            if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
+                if((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() > 50)){
+                    if(botsUnits.get("SCV") / botsUnits.get("ComandCenter") < 12){
+                        myUnit.train(UnitType.Terran_SCV);
+                        if (botsUnits.containsKey("SCV")) {
+                            botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
+                        } else {
+                            botsUnits.put("SCV", 1);
+                        }
+                    }
+                }
+            }
+
+            if(myUnit.getType() == UnitType.Terran_SCV){
+                if((self.supplyTotal() - self.supplyUsed() <= 2) && (self.minerals() > 90)) {
+                    TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation());
+                    myUnit.build(UnitType.Terran_Supply_Depot, getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation()));
+                }
             }
 
             //if it's a worker and it's idle, send it to the closest mineral patch
@@ -89,4 +114,70 @@ public class TestBot1 extends DefaultBWListener {
     public static void main(String[] args) {
         new TestBot1().run();
     }
+
+    //----------//----------//----------//
+
+    public TilePosition getBuildTile(Unit builder, UnitType buildingType, TilePosition aroundTile){
+        TilePosition ret = null;
+        int maxDist = 3;
+        int stopDist = 40;
+
+        //Refinery
+        if(buildingType.isRefinery()){
+            for (Unit geyser : game.neutral().getUnits()){
+                if((geyser.getType() == UnitType.Resource_Vespene_Geyser) &&
+                        (geyser.getTilePosition().getX() - aroundTile.getX() < stopDist) &&
+                        (geyser.getTilePosition().getY() - aroundTile.getY() < stopDist)){
+                    return  geyser.getTilePosition();
+                }
+            }
+        }
+
+        //Other buildings
+        while ((maxDist < stopDist) && (ret == null)) {
+            for (int i = aroundTile.getX() - maxDist; i <= aroundTile.getX() + maxDist; i++) {
+                for (int j = aroundTile.getY() - maxDist; j <= aroundTile.getY() + maxDist; j++) {
+                    if (game.canBuildHere(new TilePosition(i, j), buildingType, builder, false)) {
+                        // units that are blocking the tile
+                        boolean unitsInWay = false;
+                        for (Unit u : game.getAllUnits()) {
+                            if (u.getID() == builder.getID()) continue;
+                            if ((Math.abs(u.getTilePosition().getX() - i) < 4) && (Math.abs(u.getTilePosition().getY() - j) < 4)) {
+                                unitsInWay = true;
+                            }
+                        }
+                        if (!unitsInWay) {
+                            ret = new TilePosition(i, j);
+                        }
+                        // creep for Zerg
+                        if (buildingType.requiresCreep()) {
+                            boolean creepMissing = false;
+                            for (int k = i; k <= i + buildingType.tileWidth(); k++) {
+                                for (int l = j; l <= j + buildingType.tileHeight(); l++) {
+                                    if (!game.hasCreep(k, l)) creepMissing = true;
+                                    break;
+                                }
+                            }
+                            if (creepMissing) continue;
+                        }
+                    }
+                }
+            }
+            maxDist += 2;
+        }
+        return ret;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
