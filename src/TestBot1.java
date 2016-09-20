@@ -67,7 +67,16 @@ public class TestBot1 extends DefaultBWListener {
     public void onFrame() {
         //game.setTextSize(10);
         game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
-        game.drawTextScreen(140, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies");
+        game.drawTextScreen(200, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies");
+
+        //---------//
+        int i = 0;
+        game.drawTextScreen(200, 10, "Buildings:");
+        for (String buildingName : buildings){
+            game.drawTextScreen(220, 20 + (i * 10), buildingName);
+            i++;
+        }
+        //---------//
 
         StringBuilder units = new StringBuilder("My units:\n");
 
