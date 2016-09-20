@@ -35,16 +35,10 @@ public class TestBot1 extends DefaultBWListener {
         game.enableFlag(1);
         self = game.self();
 
-        //Find enemy base
-        for (BaseLocation base : BWTA.getBaseLocations()){
-            if(base.isStartLocation())
-                enemyBasePosition = base.getPosition();
-        }
-
         //----------//
         botsUnits = new HashMap<String, Integer>();
         botsUnits.put("SCV", 4);
-        botsUnits.put("ComandCenter", 4);
+        botsUnits.put("ComandCenter", 1);
 
         buildings = new ArrayList<>();
         builders = new ArrayList<>();
@@ -56,7 +50,14 @@ public class TestBot1 extends DefaultBWListener {
         BWTA.readMap();
         BWTA.analyze();
         System.out.println("Map data ready");
-        
+
+        //Find enemy base
+        for (BaseLocation base : BWTA.getBaseLocations()){
+            if(base.isStartLocation())
+                enemyBasePosition = base.getPosition();
+        }
+        //---//
+
         int i = 0;
         for(BaseLocation baseLocation : BWTA.getBaseLocations()){
         	System.out.println("Base location #" + (++i) + ". Printing location's region polygon:");
@@ -105,6 +106,8 @@ public class TestBot1 extends DefaultBWListener {
                     }
                 }
                 //---//
+
+                //System.out.println("Point1\n");
 
                 //---Comand Center
                 //if there's enough minerals, train an SCV
@@ -162,7 +165,7 @@ public class TestBot1 extends DefaultBWListener {
                     for (String buildingName : buildings) {
                         if (buildingName.equals("Barracks")) buildingBarracks = true;
                     }
-                    if ((botsUnits.get("Barracks") < 4) && (!buildingBarracks) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
+                    if ((botsUnits.containsKey("Barracks")) && (botsUnits.get("Barracks") < 4) && (!buildingBarracks) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Barracks, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Barrackss - ");
                         boolean result = myUnit.build(UnitType.Terran_Barracks, buildTile);
