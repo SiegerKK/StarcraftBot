@@ -80,7 +80,7 @@ public class TestBot1 extends DefaultBWListener {
     public void onFrame() {
         //game.setTextSize(10);
         game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
-        game.drawTextScreen(200, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies -> " + botsUnits.get("Marine"));
+        game.drawTextScreen(160, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies -> " + botsUnits.get("Marine"));
 
         //---------//
         int i = 0;
@@ -119,11 +119,13 @@ public class TestBot1 extends DefaultBWListener {
                 if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
                     if ((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() >= 50)) {
                         if (botsUnits.get("SCV") / botsUnits.get("ComandCenter") < 12) {
-                            myUnit.train(UnitType.Terran_SCV);
-                            if (botsUnits.containsKey("SCV")) {
-                                botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
-                            } else {
-                                botsUnits.put("SCV", 1);
+                            boolean train = myUnit.train(UnitType.Terran_SCV);
+                            if(train) {
+                                if (botsUnits.containsKey("SCV")) {
+                                    botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
+                                } else {
+                                    botsUnits.put("SCV", 1);
+                                }
                             }
                         }
                     }
@@ -133,11 +135,13 @@ public class TestBot1 extends DefaultBWListener {
                 //---Barracks
                 //if there's enough minerals, train an Marines
                 if ((myUnit.getType() == UnitType.Terran_Barracks)) {
-                    myUnit.train(UnitType.Terran_Marine);
-                    if (botsUnits.containsKey("Marine")) {
-                        botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
-                    } else {
-                        botsUnits.put("Marine", 1);
+                    boolean train = myUnit.train(UnitType.Terran_Marine);
+                    if (train) {
+                        if (botsUnits.containsKey("Marine")) {
+                            botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
+                        } else {
+                            botsUnits.put("Marine", 1);
+                        }
                     }
                 }
                 //---//
