@@ -54,9 +54,10 @@ public class TestBot1 extends DefaultBWListener {
         //Find enemy base
         for (BaseLocation base : BWTA.getBaseLocations()){
             if(base.isStartLocation()) {
-                if(!self.getStartLocation().equals(base.getTilePosition()))
+                if(!self.getStartLocation().equals(base.getTilePosition())) {
                     enemyBasePosition = base.getPosition();
                     break;
+                }
             }
         }
         //---//
