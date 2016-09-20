@@ -215,6 +215,7 @@ public class TestBot1 extends DefaultBWListener {
             }
             maxDist += 2;
         }
+        if (ret == null) game.printf("Unable to find suitable build position for " + buildingType.toString());
         return ret;
     }
 }
