@@ -73,7 +73,7 @@ public class TestBot1 extends DefaultBWListener {
         int i = 0;
         game.drawTextScreen(200, 25, "Buildings:");
         for (String buildingName : buildings){
-            game.drawTextScreen(220, 40 + (i * 15), buildingName + " - " + builders.get(i).getType());
+            game.drawTextScreen(220, 40 + (i * 15), buildingName + " - " + builders.get(i));
             i++;
         }
         //---------//
