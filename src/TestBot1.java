@@ -93,6 +93,21 @@ public class TestBot1 extends DefaultBWListener {
 
         StringBuilder units = new StringBuilder("My units:\n");
 
+        botsUnits.replace("SCV", 0);
+        botsUnits.replace("Marine", 0);
+        botsUnits.replace("Comand Center", 0);
+        botsUnits.replace("Suply Depot", 0);
+        botsUnits.replace("Barracks", 0);
+        for (Unit myUnit : self.getUnits()) {
+            if(myUnit.getType() == UnitType.Terran_SCV){
+                botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
+                botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
+                botsUnits.replace("Comand Center", botsUnits.get("Comand Center") + 1);
+                botsUnits.replace("Suply Depot", botsUnits.get("Suply Depot") + 1);
+                botsUnits.replace("Barracks", botsUnits.get("Barracks") + 1);
+            }
+        }
+
         //iterate through my units
         for (Unit myUnit : self.getUnits()) {
             //If unit is busy for building - don't touch it
@@ -120,13 +135,6 @@ public class TestBot1 extends DefaultBWListener {
                     if ((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() >= 50)) {
                         if (botsUnits.get("SCV") / botsUnits.get("ComandCenter") < 12) {
                             boolean train = myUnit.train(UnitType.Terran_SCV);
-                            if(train) {
-                                if (botsUnits.containsKey("SCV")) {
-                                    botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
-                                } else {
-                                    botsUnits.put("SCV", 1);
-                                }
-                            }
                         }
                     }
                 }
@@ -136,13 +144,6 @@ public class TestBot1 extends DefaultBWListener {
                 //if there's enough minerals, train an Marines
                 if ((myUnit.getType() == UnitType.Terran_Barracks)) {
                     boolean train = myUnit.train(UnitType.Terran_Marine);
-                    if (train) {
-                        if (botsUnits.containsKey("Marine")) {
-                            botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
-                        } else {
-                            botsUnits.put("Marine", 1);
-                        }
-                    }
                 }
                 //---//
 
@@ -161,12 +162,6 @@ public class TestBot1 extends DefaultBWListener {
                         System.out.print(result + " " + buildTile.toString() + "\n");
                         buildings.add("Suply Depot");
                         builders.add(myUnit);
-
-                        if (botsUnits.containsKey("Suply Depot")) {
-                            botsUnits.replace("Suply Depot", botsUnits.get("Suply Depot") + 1);
-                        } else {
-                            botsUnits.put("Suply Depot", 1);
-                        }
                     }
 
                     //SCV builds Barrack
@@ -181,12 +176,6 @@ public class TestBot1 extends DefaultBWListener {
                         System.out.print(result + " " + buildTile.toString() + "\n");
                         buildings.add("Barracks");
                         builders.add(myUnit);
-
-                        if (botsUnits.containsKey("Barracks")) {
-                            botsUnits.replace("Barracks", botsUnits.get("Barracks") + 1);
-                        } else {
-                            botsUnits.put("Barracks", 1);
-                        }
                     }
                 }
                 //---//
