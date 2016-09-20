@@ -2,6 +2,7 @@ import bwapi.*;
 import bwta.BWTA;
 import bwta.BaseLocation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,9 @@ public class TestBot1 extends DefaultBWListener {
     private Player self;
 
     private Map<String, Integer> botsUnits;
+    //private Map<String, Unit> buildings
+    private ArrayList<String> buildings;
+    private ArrayList<Unit> builders;
 
     public void run() {
         mirror.getModule().setEventListener(this);
@@ -32,9 +36,14 @@ public class TestBot1 extends DefaultBWListener {
         game.setLocalSpeed(20);
         self = game.self();
 
+        //----------//
         botsUnits = new HashMap<String, Integer>();
         botsUnits.put("SCV", 4);
         botsUnits.put("ComandCenter", 4);
+
+        buildings = new ArrayList<>();
+        builders = new ArrayList<>();
+        //----------//
 
         //Use BWTA to analyze map
         //This may take a few minutes if the map is processed first time!
@@ -66,6 +75,16 @@ public class TestBot1 extends DefaultBWListener {
         for (Unit myUnit : self.getUnits()) {
             units.append(myUnit.getType()).append(" ").append(myUnit.getTilePosition()).append("\n");
 
+            //Checking buildings
+            for (Unit unit : builders){
+                if(unit.isIdle()){
+                    buildings.remove(builders.indexOf(unit));
+                    builders.remove(unit);
+                }
+            }
+            //---//
+
+            //---Comand Center
             //if there's enough minerals, train an SCV
             if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
                 if((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() > 50)){
@@ -79,13 +98,24 @@ public class TestBot1 extends DefaultBWListener {
                     }
                 }
             }
+            //---//
 
+            //---SCV
             if(myUnit.getType() == UnitType.Terran_SCV){
-                if((self.supplyTotal() - self.supplyUsed() <= 2) && (self.minerals() > 90)) {
+
+                //SCV builds Suply
+                boolean buildingSuply = false;
+                for (String buildingName : buildings){
+                    if(buildingName.equals("Suply")) buildingSuply = true;
+                }
+                if((!buildingSuply) && (self.supplyTotal() - self.supplyUsed() <= 2) && (self.minerals() > 90)) {
                     TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation());
                     myUnit.build(UnitType.Terran_Supply_Depot, getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation()));
+                    buildings.add("Suply");
+                    builders.add(myUnit);
                 }
             }
+            //---//
 
             //if it's a worker and it's idle, send it to the closest mineral patch
             if (myUnit.getType().isWorker() && myUnit.isIdle()) {
