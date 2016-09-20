@@ -165,7 +165,7 @@ public class TestBot1 extends DefaultBWListener {
                     for (String buildingName : buildings) {
                         if (buildingName.equals("Barracks")) buildingBarracks = true;
                     }
-                    if ((botsUnits.containsKey("Barracks")) && (botsUnits.get("Barracks") < 4) && (!buildingBarracks) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
+                    if (((!botsUnits.containsKey("Barracks")) || (botsUnits.get("Barracks") < 4)) && (!buildingBarracks) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Barracks, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Barrackss - ");
                         boolean result = myUnit.build(UnitType.Terran_Barracks, buildTile);
@@ -182,7 +182,7 @@ public class TestBot1 extends DefaultBWListener {
                 }
                 //---//
 
-                //---SCV
+                //---Marine
                 if (myUnit.getType() == UnitType.Terran_Marine) {
                     if(botsUnits.get("Marine") >= 24){
                         myUnit.attack(enemyBasePosition);
