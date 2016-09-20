@@ -53,8 +53,11 @@ public class TestBot1 extends DefaultBWListener {
 
         //Find enemy base
         for (BaseLocation base : BWTA.getBaseLocations()){
-            if(base.isStartLocation())
-                enemyBasePosition = base.getPosition();
+            if(base.isStartLocation()) {
+                if(!self.getStartLocation().equals(base.getTilePosition()))
+                    enemyBasePosition = base.getPosition();
+                    break;
+            }
         }
         //---//
 
@@ -106,8 +109,6 @@ public class TestBot1 extends DefaultBWListener {
                     }
                 }
                 //---//
-
-                //System.out.println("Point1\n");
 
                 //---Comand Center
                 //if there's enough minerals, train an SCV
