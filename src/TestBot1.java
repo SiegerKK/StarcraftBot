@@ -117,6 +117,18 @@ public class TestBot1 extends DefaultBWListener {
                 }
                 //---//
 
+                //---Barracks
+                //if there's enough minerals, train an Marines
+                if ((myUnit.getType() == UnitType.Terran_Barracks)) {
+                    myUnit.train(UnitType.Terran_Marine);
+                    if (botsUnits.containsKey("Marine")) {
+                        botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
+                    } else {
+                        botsUnits.put("Marine", 1);
+                    }
+                }
+                //---//
+
                 //---SCV
                 if (myUnit.getType() == UnitType.Terran_SCV) {
 
@@ -132,7 +144,20 @@ public class TestBot1 extends DefaultBWListener {
                         System.out.print(result + " " + buildTile.toString() + "\n");
                         buildings.add("Suply Depot");
                         builders.add(myUnit);
+                    }
 
+                    //SCV builds Barrack
+                    boolean buildingBarracks = false;
+                    for (String buildingName : buildings) {
+                        if (buildingName.equals("Barracks")) buildingBarracks = true;
+                    }
+                    if ((!buildingBarracks) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
+                        TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Barracks, self.getStartLocation());
+                        System.out.print("Terran_SCV try build Terran_Barrackss - ");
+                        boolean result = myUnit.build(UnitType.Terran_Barracks, buildTile);
+                        System.out.print(result + " " + buildTile.toString() + "\n");
+                        buildings.add("Barracks");
+                        builders.add(myUnit);
                     }
                 }
                 //---//
