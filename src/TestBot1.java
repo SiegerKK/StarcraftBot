@@ -182,7 +182,7 @@ public class TestBot1 extends DefaultBWListener {
 
                 //---Marine
                 if (myUnit.getType() == UnitType.Terran_Marine) {
-                    if(botsUnits.get("Marine") >= 24){
+                    if(botsUnits.get("Marine") >= 36){
                         if(myUnit.isIdle())
                             myUnit.attack(enemyBasePosition);
                     }
