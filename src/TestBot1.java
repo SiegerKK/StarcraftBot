@@ -126,7 +126,7 @@ public class TestBot1 extends DefaultBWListener {
                         if (buildingName.equals("Suply")) buildingSuply = true;
                     }
                     if ((!buildingSuply) && (self.supplyTotal() - self.supplyUsed() <= 2) && (self.minerals() >= 90)) {
-                        TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation());
+                        TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Refinery, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Suply_Depot - ");
                         System.out.print(myUnit.build(UnitType.Terran_Refinery, buildTile) + "\n");
                         buildings.add("Suply");
