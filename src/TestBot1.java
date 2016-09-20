@@ -99,11 +99,15 @@ public class TestBot1 extends DefaultBWListener {
         botsUnits.replace("Suply Depot", 0);
         botsUnits.replace("Barracks", 0);
         for (Unit myUnit : self.getUnits()) {
-            if(myUnit.getType() == UnitType.Terran_SCV){
+            if(myUnit.getType() == UnitType.Terran_SCV) {
                 botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
+            } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
+            } else if(myUnit.getType() == UnitType.Terran_Command_Center) {
                 botsUnits.replace("Comand Center", botsUnits.get("Comand Center") + 1);
+            } else if(myUnit.getType() == UnitType.Terran_Supply_Depot) {
                 botsUnits.replace("Suply Depot", botsUnits.get("Suply Depot") + 1);
+            } else if(myUnit.getType() == UnitType.Terran_Barracks) {
                 botsUnits.replace("Barracks", botsUnits.get("Barracks") + 1);
             }
         }
