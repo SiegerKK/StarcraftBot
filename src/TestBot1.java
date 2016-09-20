@@ -73,68 +73,77 @@ public class TestBot1 extends DefaultBWListener {
 
         //iterate through my units
         for (Unit myUnit : self.getUnits()) {
-            units.append(myUnit.getType()).append(" ").append(myUnit.getTilePosition()).append("\n");
-
-            //Checking buildings
-            for (Unit unit : builders){
-                if(unit.isIdle()){
-                    buildings.remove(builders.indexOf(unit));
-                    builders.remove(unit);
-                }
+            //If unit is busy for building - don't touch it
+            boolean isBuilder = false;
+            for (Unit builder : builders){
+                if(builder.equals(myUnit))
+                    isBuilder = true;
             }
             //---//
+            if(!isBuilder) {
+                units.append(myUnit.getType()).append(" ").append(myUnit.getTilePosition()).append("\n");
 
-            //---Comand Center
-            //if there's enough minerals, train an SCV
-            if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
-                if((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() > 50)){
-                    if(botsUnits.get("SCV") / botsUnits.get("ComandCenter") < 12){
-                        myUnit.train(UnitType.Terran_SCV);
-                        if (botsUnits.containsKey("SCV")) {
-                            botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
-                        } else {
-                            botsUnits.put("SCV", 1);
+                //Checking buildings
+                for (Unit unit : builders) {
+                    if (unit.isIdle()) {
+                        buildings.remove(builders.indexOf(unit));
+                        builders.remove(unit);
+                    }
+                }
+                //---//
+
+                //---Comand Center
+                //if there's enough minerals, train an SCV
+                if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
+                    if ((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() >= 50)) {
+                        if (botsUnits.get("SCV") / botsUnits.get("ComandCenter") < 12) {
+                            myUnit.train(UnitType.Terran_SCV);
+                            if (botsUnits.containsKey("SCV")) {
+                                botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
+                            } else {
+                                botsUnits.put("SCV", 1);
+                            }
                         }
                     }
                 }
-            }
-            //---//
+                //---//
 
-            //---SCV
-            if(myUnit.getType() == UnitType.Terran_SCV){
+                //---SCV
+                if (myUnit.getType() == UnitType.Terran_SCV) {
 
-                //SCV builds Suply
-                boolean buildingSuply = false;
-                for (String buildingName : buildings){
-                    if(buildingName.equals("Suply")) buildingSuply = true;
-                }
-                if((!buildingSuply) && (self.supplyTotal() - self.supplyUsed() <= 2) && (self.minerals() > 90)) {
-                    TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation());
-                    myUnit.build(UnitType.Terran_Supply_Depot, getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation()));
-                    buildings.add("Suply");
-                    builders.add(myUnit);
+                    //SCV builds Suply
+                    boolean buildingSuply = false;
+                    for (String buildingName : buildings) {
+                        if (buildingName.equals("Suply")) buildingSuply = true;
+                    }
+                    if ((!buildingSuply) && (self.supplyTotal() - self.supplyUsed() <= 2) && (self.minerals() >= 90)) {
+                        TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation());
+                        myUnit.build(UnitType.Terran_Supply_Depot, buildTile);
+                        buildings.add("Suply");
+                        builders.add(myUnit);
 
-                    System.out.print("SCV try build Terran_Suply_Depot\n");
-                }
-            }
-            //---//
-
-            //if it's a worker and it's idle, send it to the closest mineral patch
-            if (myUnit.getType().isWorker() && myUnit.isIdle()) {
-                Unit closestMineral = null;
-
-                //find the closest mineral
-                for (Unit neutralUnit : game.neutral().getUnits()) {
-                    if (neutralUnit.getType().isMineralField()) {
-                        if (closestMineral == null || myUnit.getDistance(neutralUnit) < myUnit.getDistance(closestMineral)) {
-                            closestMineral = neutralUnit;
-                        }
+                        System.out.print("Terran_SCV try build Terran_Suply_Depot\n");
                     }
                 }
+                //---//
 
-                //if a mineral patch was found, send the worker to gather it
-                if (closestMineral != null) {
-                    myUnit.gather(closestMineral, false);
+                //if it's a worker and it's idle, send it to the closest mineral patch
+                if (myUnit.getType().isWorker() && myUnit.isIdle()) {
+                    Unit closestMineral = null;
+
+                    //find the closest mineral
+                    for (Unit neutralUnit : game.neutral().getUnits()) {
+                        if (neutralUnit.getType().isMineralField()) {
+                            if (closestMineral == null || myUnit.getDistance(neutralUnit) < myUnit.getDistance(closestMineral)) {
+                                closestMineral = neutralUnit;
+                            }
+                        }
+                    }
+
+                    //if a mineral patch was found, send the worker to gather it
+                    if (closestMineral != null) {
+                        myUnit.gather(closestMineral, false);
+                    }
                 }
             }
         }
