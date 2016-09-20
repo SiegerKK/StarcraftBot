@@ -38,7 +38,10 @@ public class TestBot1 extends DefaultBWListener {
         //----------//
         botsUnits = new HashMap<String, Integer>();
         botsUnits.put("SCV", 4);
+        botsUnits.put("Marine", 0);
         botsUnits.put("ComandCenter", 1);
+        botsUnits.put("Suply Depot", 0);
+        botsUnits.put("Barracks", 0);
 
         buildings = new ArrayList<>();
         builders = new ArrayList<>();
@@ -186,9 +189,10 @@ public class TestBot1 extends DefaultBWListener {
 
                 //---Marine
                 if (myUnit.getType() == UnitType.Terran_Marine) {
-                    //if(botsUnits.get("Marine") >= 24){
-                        myUnit.attack(enemyBasePosition);
-                    //}
+                    if(botsUnits.get("Marine") >= 24){
+                        if(!myUnit.isAttacking())
+                            myUnit.attack(enemyBasePosition);
+                    }
                 }
                 //---//
 
