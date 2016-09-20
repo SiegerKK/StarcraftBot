@@ -25,7 +25,7 @@ public class TestBot1 extends DefaultBWListener {
         game = mirror.getGame();
         game.enableFlag(1);
         game.setLocalSpeed(20);
-        self = game.getPlayer(2);
+        self = game.self();
 
         //Use BWTA to analyze map
         //This may take a few minutes if the map is processed first time!
@@ -49,6 +49,7 @@ public class TestBot1 extends DefaultBWListener {
     public void onFrame() {
         //game.setTextSize(10);
         game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
+        game.drawTextScreen(20, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies");
 
         StringBuilder units = new StringBuilder("My units:\n");
 
