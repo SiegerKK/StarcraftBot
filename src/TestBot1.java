@@ -33,7 +33,7 @@ public class TestBot1 extends DefaultBWListener {
     public void onStart() {
         game = mirror.getGame();
         game.enableFlag(1);
-        game.setLocalSpeed(20);
+        //game.setLocalSpeed(20);
         self = game.self();
 
         //----------//
@@ -113,6 +113,8 @@ public class TestBot1 extends DefaultBWListener {
                     myUnit.build(UnitType.Terran_Supply_Depot, getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation()));
                     buildings.add("Suply");
                     builders.add(myUnit);
+
+                    System.out.print("SCV try build Terran_Suply_Depot\n");
                 }
             }
             //---//
