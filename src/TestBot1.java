@@ -80,7 +80,7 @@ public class TestBot1 extends DefaultBWListener {
     public void onFrame() {
         //game.setTextSize(10);
         game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
-        game.drawTextScreen(200, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies");
+        game.drawTextScreen(200, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies -> " + botsUnits.get("Marine"));
 
         //---------//
         int i = 0;
@@ -190,7 +190,7 @@ public class TestBot1 extends DefaultBWListener {
                 //---Marine
                 if (myUnit.getType() == UnitType.Terran_Marine) {
                     if(botsUnits.get("Marine") >= 24){
-                        if(!myUnit.isAttacking())
+                        if(myUnit.isIdle())
                             myUnit.attack(enemyBasePosition);
                     }
                 }
