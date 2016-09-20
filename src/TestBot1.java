@@ -15,9 +15,9 @@ public class TestBot1 extends DefaultBWListener {
     private Player self;
 
     private Map<String, Integer> botsUnits;
-    //private Map<String, Unit> buildings
     private ArrayList<String> buildings;
     private ArrayList<Unit> builders;
+    private Position enemyBasePosition;
 
     public void run() {
         mirror.getModule().setEventListener(this);
@@ -33,8 +33,13 @@ public class TestBot1 extends DefaultBWListener {
     public void onStart() {
         game = mirror.getGame();
         game.enableFlag(1);
-        //game.setLocalSpeed(20);
         self = game.self();
+
+        //Find enemy base
+        for (BaseLocation base : BWTA.getBaseLocations()){
+            if(base.isStartLocation())
+                enemyBasePosition = base.getPosition();
+        }
 
         //----------//
         botsUnits = new HashMap<String, Integer>();
@@ -144,6 +149,12 @@ public class TestBot1 extends DefaultBWListener {
                         System.out.print(result + " " + buildTile.toString() + "\n");
                         buildings.add("Suply Depot");
                         builders.add(myUnit);
+
+                        if (botsUnits.containsKey("Suply Depot")) {
+                            botsUnits.replace("Suply Depot", botsUnits.get("Suply Depot") + 1);
+                        } else {
+                            botsUnits.put("Suply Depot", 1);
+                        }
                     }
 
                     //SCV builds Barrack
@@ -151,13 +162,27 @@ public class TestBot1 extends DefaultBWListener {
                     for (String buildingName : buildings) {
                         if (buildingName.equals("Barracks")) buildingBarracks = true;
                     }
-                    if ((!buildingBarracks) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
+                    if ((botsUnits.get("Barracks") < 4) && (!buildingBarracks) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Barracks, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Barrackss - ");
                         boolean result = myUnit.build(UnitType.Terran_Barracks, buildTile);
                         System.out.print(result + " " + buildTile.toString() + "\n");
                         buildings.add("Barracks");
                         builders.add(myUnit);
+
+                        if (botsUnits.containsKey("Barracks")) {
+                            botsUnits.replace("Barracks", botsUnits.get("Barracks") + 1);
+                        } else {
+                            botsUnits.put("Barracks", 1);
+                        }
+                    }
+                }
+                //---//
+
+                //---SCV
+                if (myUnit.getType() == UnitType.Terran_Marine) {
+                    if(botsUnits.get("Marine") >= 24){
+                        myUnit.attack(enemyBasePosition);
                     }
                 }
                 //---//
