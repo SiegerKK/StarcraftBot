@@ -118,7 +118,7 @@ public class TestBot1 extends DefaultBWListener {
                 botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
 
                 if(myUnit.isConstructing()) {
-                    Unit building = myUnit.getBuildUnit();
+                    Unit building = myUnit.getTarget();
                     System.out.print("Building - " + building + "\n");
                     buildings.add(building);
                     builders.add(myUnit);
