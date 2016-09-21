@@ -16,10 +16,10 @@ public class TestBot1 extends DefaultBWListener {
 
     private Map<String, Integer> botsUnits;
     private Map<Unit, Integer> refineries;
+    private Map<UnitType, Boolean> workersIsComingToBuild;
     private ArrayList<Unit> buildings;
     private ArrayList<Unit> builders;
     private Position enemyBasePosition;
-
 
     public void run() {
         mirror.getModule().setEventListener(this);
@@ -40,6 +40,7 @@ public class TestBot1 extends DefaultBWListener {
         //----------//
         botsUnits = new HashMap<String, Integer>();
         refineries = new HashMap<Unit, Integer>();
+        workersIsComingToBuild = new HashMap<UnitType, Boolean>();
 
         botsUnits.put("SCV", 4);
         botsUnits.put("Marine", 0);
@@ -48,6 +49,12 @@ public class TestBot1 extends DefaultBWListener {
         botsUnits.put("Suply Depot", 0);
         botsUnits.put("Barracks", 0);
         botsUnits.put("Academy", 0);
+
+        workersIsComingToBuild.put(UnitType.Terran_Command_Center, false);
+        workersIsComingToBuild.put(UnitType.Terran_Refinery, false);
+        workersIsComingToBuild.put(UnitType.Terran_Supply_Depot, false);
+        workersIsComingToBuild.put(UnitType.Terran_Barracks, false);
+        workersIsComingToBuild.put(UnitType.Terran_Academy, false);
 
         buildings = new ArrayList<>();
         builders = new ArrayList<>();
@@ -114,6 +121,17 @@ public class TestBot1 extends DefaultBWListener {
                     Unit building = myUnit.getBuildUnit();
                     buildings.add(building);
                     builders.add(myUnit);
+
+                    if(building.getType().equals(UnitType.Terran_Command_Center))
+                        workersIsComingToBuild.replace(UnitType.Terran_Command_Center, false);
+                    else if(building.getType().equals(UnitType.Terran_Refinery))
+                        workersIsComingToBuild.replace(UnitType.Terran_Refinery, false);
+                    else if(building.getType().equals(UnitType.Terran_Supply_Depot))
+                        workersIsComingToBuild.replace(UnitType.Terran_Supply_Depot, false);
+                    else if(building.getType().equals(UnitType.Terran_Barracks))
+                        workersIsComingToBuild.replace(UnitType.Terran_Barracks, false);
+                    else if(building.getType().equals(UnitType.Terran_Academy))
+                        workersIsComingToBuild.replace(UnitType.Terran_Academy, false);
                 }
 
                 /*if(myUnit.isGatheringGas()){
@@ -210,71 +228,81 @@ public class TestBot1 extends DefaultBWListener {
 
                     //SCV builds Suply
                     boolean buildingSuply = false;
-                    for (Unit buildingName : buildings) {
-                        if (buildingName.getType().equals(UnitType.Terran_Supply_Depot)) buildingSuply = true;
+                    if(workersIsComingToBuild.get(UnitType.Terran_Supply_Depot)){
+                        buildingSuply = true;
+                    } else {
+                        for (Unit buildingName : buildings) {
+                            if (buildingName.getType().equals(UnitType.Terran_Supply_Depot)) buildingSuply = true;
+                        }
                     }
                     if ((!buildingSuply) && (self.supplyTotal() - self.supplyUsed() <= 2) && (self.minerals() >= 100)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Suply_Depot - ");
                         boolean result = myUnit.build(UnitType.Terran_Supply_Depot, buildTile);
                         System.out.print(result + " " + buildTile.toString() + "\n");
-                        /*if(result) {
-                            Unit building = myUnit.getBuildUnit();
-                            buildings.add(building);
-                            builders.add(myUnit);
-                        }*/
+                        if(result) {
+                            workersIsComingToBuild.replace(UnitType.Terran_Supply_Depot, true);
+                        }
                     }
 
                     //SCV builds Barrack
                     boolean buildingBarracks = false;
-                    for (Unit buildingName : buildings) {
-                        if (buildingName.getType().equals(UnitType.Terran_Barracks)) buildingBarracks = true;
+                    if(workersIsComingToBuild.get(UnitType.Terran_Barracks)){
+                        buildingBarracks = true;
+                    } else {
+                        for (Unit buildingName : buildings) {
+                            if (buildingName.getType().equals(UnitType.Terran_Barracks)) buildingBarracks = true;
+                        }
                     }
                     if (((!botsUnits.containsKey("Barracks")) || (botsUnits.get("Barracks") < 4)) && (!buildingBarracks) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Barracks, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Barrackss - ");
                         boolean result = myUnit.build(UnitType.Terran_Barracks, buildTile);
                         System.out.print(result + " " + buildTile.toString() + "\n");
-                        /*if(result) {
-                            Unit building = myUnit.getBuildUnit();
-                            buildings.add(building);
-                            builders.add(myUnit);
-                        }*/
+                        if(result) {
+                            workersIsComingToBuild.replace(UnitType.Terran_Barracks, true);
+                        }
                     }
 
                     //SCV builds Refinery
                     boolean buildingRefinery = false;
-                    for (Unit buildingName : buildings) {
-                        if (buildingName.getType().equals(UnitType.Terran_Refinery)) buildingRefinery = true;
+                    if(workersIsComingToBuild.get(UnitType.Terran_Refinery)){
+                        buildingRefinery = true;
+                    } else {
+                        for (Unit buildingName : buildings) {
+                            if (buildingName.getType().equals(UnitType.Terran_Refinery)) buildingRefinery = true;
+                        }
                     }
                     if ((botsUnits.get("Refinery") < botsUnits.get("Comand Center")) && (!buildingRefinery) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 100)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Refinery, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Refinery - ");
                         boolean result = myUnit.build(UnitType.Terran_Refinery, buildTile);
                         System.out.print(result + " " + buildTile.toString() + "\n");
-                        /*if(result) {
-                            Unit building = myUnit.getBuildUnit();
-                            buildings.add(building);
-                            builders.add(myUnit);
-                        }*/
+                        if(result) {
+                            workersIsComingToBuild.replace(UnitType.Terran_Refinery, true);
+                        }
                     }
 
                     //SCV builds Academy
                     boolean buildingAcademy = false;
-                    for (Unit buildingName : buildings) {
-                        if (buildingName.getType().equals(UnitType.Terran_Academy)) buildingAcademy = true;
+                    if(workersIsComingToBuild.get(UnitType.Terran_Academy)){
+                        buildingAcademy = true;
+                    } else {
+                        for (Unit buildingName : buildings) {
+                            if (buildingName.getType().equals(UnitType.Terran_Academy)) buildingAcademy = true;
+                        }
                     }
                     if ((botsUnits.get("Academy") < 1) && (!buildingAcademy) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Academy, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Academy - ");
                         boolean result = myUnit.build(UnitType.Terran_Academy, buildTile);
                         System.out.print(result + " " + buildTile.toString() + "\n");
-                        /*if(result) {
-                            Unit building = myUnit.getBuildUnit();
-                            buildings.add(building);
-                            builders.add(myUnit);
-                        }*/
+                        if(result) {
+                            workersIsComingToBuild.replace(UnitType.Terran_Academy, true);
+                        }
                     }
+
+                    //----------//
 
                     //Chekicng Refineries
                     if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
