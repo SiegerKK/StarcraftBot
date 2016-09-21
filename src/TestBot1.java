@@ -15,7 +15,7 @@ public class TestBot1 extends DefaultBWListener {
     private Player self;
 
     private Map<String, Integer> botsUnits;
-    private Map<Unit, Integer> refineries;
+    private Map<Unit, ArrayList<Unit>> refineries;
     private Map<UnitType, Unit> workersIsComingToBuild;
     private ArrayList<Unit> buildings;
     private ArrayList<Unit> builders;
@@ -39,7 +39,7 @@ public class TestBot1 extends DefaultBWListener {
 
         //----------//
         botsUnits = new HashMap<String, Integer>();
-        refineries = new HashMap<Unit, Integer>();
+        refineries = new HashMap<Unit, ArrayList<Unit>>();
         workersIsComingToBuild = new HashMap<UnitType, Unit>();
 
         botsUnits.put("SCV", 4);
@@ -123,7 +123,11 @@ public class TestBot1 extends DefaultBWListener {
                     workersIsComingToBuild.replace(type, null);
         }
         for (Unit refinery : refineries.keySet()){
-            refineries.replace(refinery, 0);
+            for (Unit worker : refineries.get(refinery)){
+                if(worker == null)
+                    refineries.get(refinery).remove(worker);
+            }
+            //refineries.replace(refinery, 0);
         }
 
         for (Unit myUnit : self.getUnits()) {
@@ -144,7 +148,7 @@ public class TestBot1 extends DefaultBWListener {
                         else if(building.getType().equals(UnitType.Terran_Refinery)) {
                             workersIsComingToBuild.replace(UnitType.Terran_Refinery, null);
                             if(!refineries.containsKey(myUnit.getBuildUnit())){
-                                refineries.put(myUnit.getBuildUnit(), 0);
+                                refineries.put(myUnit.getBuildUnit(), new ArrayList<>());
                             }
                         }
                         else if(building.getType().equals(UnitType.Terran_Supply_Depot))
@@ -156,12 +160,12 @@ public class TestBot1 extends DefaultBWListener {
                     }
                 }
                 //if SCV is gathering gas
-                if(myUnit.isGatheringGas()){
+                /*if(myUnit.isGatheringGas()){
                     //System.out.print("Main order - " + myUnit.getOrderTarget().getType() + " | Second order - " + myUnit.getSecondaryOrder() + "\n");
                     if(myUnit.getOrderTarget().getType().equals(UnitType.Terran_Refinery)){
                         refineries.replace(myUnit.getOrderTarget(), refineries.get(myUnit.getOrderTarget()) + 1);
                     }
-                }
+                }*/
             } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
             } else if(myUnit.getType() == UnitType.Terran_Command_Center) {
@@ -321,8 +325,9 @@ public class TestBot1 extends DefaultBWListener {
                                 myUnit.gather(refinery);
                                 break;
                             }*/
-                            if (refineries.get(refinery) < 3) {
+                            if (refineries.get(refinery).size() < 3) {
                                 myUnit.gather(refinery);
+                                refineries.get(refinery).add(myUnit);
                                 break;
                             }
                         }
