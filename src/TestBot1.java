@@ -110,7 +110,7 @@ public class TestBot1 extends DefaultBWListener {
             if(myUnit.getType() == UnitType.Terran_SCV) {
                 botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
                 if(myUnit.isGatheringGas()){
-                    System.out.print("Gas gathering from - " + myUnit.getTarget());
+                    System.out.print("Gas gathering from - " + myUnit.getTarget().getType() + "\n");
                 }
             } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
