@@ -173,22 +173,7 @@ public class TestBot1 extends DefaultBWListener {
             //---//
             if(!isBuilder) {
                 units.append(myUnit.getType()).append(" ").append(myUnit.getTilePosition()).append("\n");
-
-                //Checking buildings
-                for (Unit unit : builders) {
-                    if (unit.isIdle() || unit.isGatheringMinerals() || unit.isGatheringGas()) {
-                        //----------//
-                        if(buildings.get(builders.indexOf(unit)).getType().equals(UnitType.Terran_Refinery)){
-                            refineries.put(unit, 0);
-                        }
-                        //----------//
-
-                        buildings.remove(builders.indexOf(unit));
-                        builders.remove(unit);
-                    }
-                }
-                //---//
-
+                
                 //---Comand Center
                 //if there's enough minerals, train an SCV
                 if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
