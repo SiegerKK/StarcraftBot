@@ -320,7 +320,7 @@ public class TestBot1 extends DefaultBWListener {
 
                     //Chekicng Refineries
                     for (Unit refinery : refineries.keySet()) {
-                        System.out.print("Size ref - " + refineries.get(refinery).size() + "\n");
+                        System.out.print("Refinery - " + refinery.getType() + "\n");
                     }
 
                     if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
