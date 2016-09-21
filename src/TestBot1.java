@@ -119,7 +119,7 @@ public class TestBot1 extends DefaultBWListener {
 
                 if(myUnit.isConstructing()) {
                     Unit building = myUnit.getTarget();
-                    System.out.print("Building - " + building + "\n");
+                    System.out.print("Building - " + building.getType() + "\n");
                     buildings.add(building);
                     builders.add(myUnit);
 
