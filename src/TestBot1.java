@@ -39,7 +39,7 @@ public class TestBot1 extends DefaultBWListener {
         botsUnits = new HashMap<String, Integer>();
         botsUnits.put("SCV", 4);
         botsUnits.put("Marine", 0);
-        botsUnits.put("ComandCenter", 1);
+        botsUnits.put("Comand Center", 1);
         botsUnits.put("Suply Depot", 0);
         botsUnits.put("Barracks", 0);
 
@@ -137,7 +137,7 @@ public class TestBot1 extends DefaultBWListener {
                 //if there's enough minerals, train an SCV
                 if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
                     if ((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() >= 50)) {
-                        if (botsUnits.get("SCV") / botsUnits.get("ComandCenter") < 12) {
+                        if (botsUnits.get("SCV") / botsUnits.get("Comand Center") < 12) {
                             boolean train = myUnit.train(UnitType.Terran_SCV);
                         }
                     }
