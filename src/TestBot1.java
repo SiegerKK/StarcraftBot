@@ -126,8 +126,12 @@ public class TestBot1 extends DefaultBWListener {
 
                     //System.out.print(myUnit.getType() + " " + myUnit.getTilePosition() + " is constructing " + building.getType() + "\n");
 
-                    buildings.add(building);
-                    builders.add(myUnit);
+                    if(building == null){
+                        System.out.print("Building - null\n");
+                    } else {
+                        buildings.add(building);
+                        builders.add(myUnit);
+                    }
 
                     if(building.getType().equals(UnitType.Terran_Command_Center))
                         workersIsComingToBuild.replace(UnitType.Terran_Command_Center, false);
