@@ -141,8 +141,12 @@ public class TestBot1 extends DefaultBWListener {
 
                         if(building.getType().equals(UnitType.Terran_Command_Center))
                             workersIsComingToBuild.replace(UnitType.Terran_Command_Center, null);
-                        else if(building.getType().equals(UnitType.Terran_Refinery))
+                        else if(building.getType().equals(UnitType.Terran_Refinery)) {
                             workersIsComingToBuild.replace(UnitType.Terran_Refinery, null);
+                            if(!refineries.containsKey(myUnit.getBuildUnit())){
+                                refineries.put(myUnit.getBuildUnit(), 0);
+                            }
+                        }
                         else if(building.getType().equals(UnitType.Terran_Supply_Depot))
                             workersIsComingToBuild.replace(UnitType.Terran_Supply_Depot, null);
                         else if(building.getType().equals(UnitType.Terran_Barracks))
