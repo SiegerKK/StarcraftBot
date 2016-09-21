@@ -39,6 +39,8 @@ public class TestBot1 extends DefaultBWListener {
 
         //----------//
         botsUnits = new HashMap<String, Integer>();
+        refineries = new HashMap<Unit, Integer>();
+
         botsUnits.put("SCV", 4);
         botsUnits.put("Marine", 0);
         botsUnits.put("Comand Center", 1);
@@ -166,7 +168,7 @@ public class TestBot1 extends DefaultBWListener {
                         if(myUnit.equals(unit) && (refineries.get(unit) < 3)){
                             for (Unit worker : self.getUnits()){
                                 if(worker.getType().isWorker()){
-                                    //worker.gather(myUnit);
+                                    worker.gather(myUnit);
                                 }
                             }
                         }
