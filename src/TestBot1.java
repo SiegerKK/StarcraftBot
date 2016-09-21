@@ -149,7 +149,6 @@ public class TestBot1 extends DefaultBWListener {
                             workersIsComingToBuild.replace(UnitType.Terran_Refinery, null);
                             if(!refineries.containsKey(myUnit.getBuildUnit())){
                                 refineries.put(myUnit.getBuildUnit(), new ArrayList<>());
-                                System.out.print("Size ref - " + refineries.get(myUnit.getBuildUnit()).size() + "\n");
                             }
                         }
                         else if(building.getType().equals(UnitType.Terran_Supply_Depot))
@@ -320,6 +319,10 @@ public class TestBot1 extends DefaultBWListener {
                     //----------//
 
                     //Chekicng Refineries
+                    for (Unit refinery : refineries.keySet()) {
+                        System.out.print("Size ref - " + refineries.get(refinery).size() + "\n");
+                    }
+
                     if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
                         for (Unit refinery : refineries.keySet()) {
                             if (refineries.get(refinery).size() < 3) {
