@@ -166,7 +166,7 @@ public class TestBot1 extends DefaultBWListener {
                         if(myUnit.equals(unit) && (refineries.get(unit) < 3)){
                             for (Unit worker : self.getUnits()){
                                 if(worker.getType().isWorker()){
-                                    worker.gather(myUnit);
+                                    //worker.gather(myUnit);
                                 }
                             }
                         }
