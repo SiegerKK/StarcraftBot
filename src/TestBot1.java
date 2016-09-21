@@ -117,15 +117,17 @@ public class TestBot1 extends DefaultBWListener {
         buildings.clear();
         builders.clear();
 
+        for (UnitType type : workersIsComingToBuild.keySet()){
+            if(!workersIsComingToBuild.get(type).isConstructing())
+                workersIsComingToBuild.replace(type, null);
+        }
+
         for (Unit myUnit : self.getUnits()) {
             if(myUnit.getType() == UnitType.Terran_SCV) {
                 botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
 
                 if(myUnit.isConstructing()) {
                     Unit building = myUnit.getBuildUnit();
-
-                    //System.out.print(myUnit.getType() + " " + myUnit.getTilePosition() + " is constructing " + building.getType() + "\n");
-
                     if(building == null){
                         System.out.print("Building - null\n");
                     } else {
@@ -144,10 +146,6 @@ public class TestBot1 extends DefaultBWListener {
                             workersIsComingToBuild.replace(UnitType.Terran_Academy, null);
                     }
                 }
-
-                /*if(myUnit.isGatheringGas()){
-                    System.out.print("Gas gathering from - " + myUnit.getTarget().getType() + "\n");
-                }*/
             } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
             } else if(myUnit.getType() == UnitType.Terran_Command_Center) {
