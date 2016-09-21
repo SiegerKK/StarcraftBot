@@ -113,6 +113,10 @@ public class TestBot1 extends DefaultBWListener {
         botsUnits.replace("Suply Depot", 0);
         botsUnits.replace("Barracks", 0);
         botsUnits.replace("Academy", 0);
+
+        buildings.clear();
+        builders.clear();
+
         for (Unit myUnit : self.getUnits()) {
             if(myUnit.getType() == UnitType.Terran_SCV) {
                 botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
@@ -120,7 +124,7 @@ public class TestBot1 extends DefaultBWListener {
                 if(myUnit.isConstructing()) {
                     Unit building = myUnit.getBuildUnit();
 
-                    System.out.print(myUnit.getType() + " " + myUnit.getTilePosition() + " is constructing" + building.getType() + "\n");
+                    //System.out.print(myUnit.getType() + " " + myUnit.getTilePosition() + " is constructing " + building.getType() + "\n");
 
                     buildings.add(building);
                     builders.add(myUnit);
