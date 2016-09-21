@@ -80,7 +80,7 @@ public class TestBot1 extends DefaultBWListener {
     public void onFrame() {
         //game.setTextSize(10);
         game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
-        game.drawTextScreen(160, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies -> " + botsUnits.get("Marine"));
+        game.drawTextScreen(160, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies");
 
         //---------//
         int i = 0;
@@ -147,7 +147,7 @@ public class TestBot1 extends DefaultBWListener {
                 //---Barracks
                 //if there's enough minerals, train an Marines
                 if ((myUnit.getType() == UnitType.Terran_Barracks)) {
-                    if(self.minerals() >= 50) {
+                    if((self.minerals() >= 50) && (myUnit.canTrain())) {
                         boolean train = myUnit.train(UnitType.Terran_Marine);
                     }
                 }
