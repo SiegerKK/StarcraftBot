@@ -15,11 +15,11 @@ public class TestBot1 extends DefaultBWListener {
     private Player self;
 
     private Map<String, Integer> botsUnits;
+    private Map<Unit, Integer> refineries;
     private ArrayList<String> buildings;
     private ArrayList<Unit> builders;
     private Position enemyBasePosition;
 
-    private Map<Unit, Integer> refineries;
 
     public void run() {
         mirror.getModule().setEventListener(this);
@@ -109,6 +109,9 @@ public class TestBot1 extends DefaultBWListener {
         for (Unit myUnit : self.getUnits()) {
             if(myUnit.getType() == UnitType.Terran_SCV) {
                 botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
+                if(myUnit.isGatheringGas()){
+                    System.out.print("Gas gathering from - " + myUnit.getTarget());
+                }
             } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
             } else if(myUnit.getType() == UnitType.Terran_Command_Center) {
@@ -163,7 +166,7 @@ public class TestBot1 extends DefaultBWListener {
                 //---//
 
                 //---Refinery
-                if(myUnit.getType() == UnitType.Terran_Refinery){
+                /*if(myUnit.getType() == UnitType.Terran_Refinery){
                     for (Unit unit : refineries.keySet()){
                         if(myUnit.equals(unit) && (refineries.get(unit) < 3)){
                             for (Unit worker : self.getUnits()){
@@ -174,7 +177,7 @@ public class TestBot1 extends DefaultBWListener {
                             }
                         }
                     }
-                }
+                }*/
                 //---//
 
                 //---Barracks
@@ -254,8 +257,19 @@ public class TestBot1 extends DefaultBWListener {
                         builders.add(myUnit);
                     }
 
+                    //Chekicng Refineries
+                    if(myUnit.isIdle()) {
+                        for (Unit refinery : refineries.keySet()) {
+                            if (refineries.get(refinery) < 3) {
+                                myUnit.gather(refinery);
+                                break;
+                            }
+                        }
+                    }
+
                     //if it's a worker and it's idle, send it to the closest mineral patch
                     if (myUnit.isIdle()) {
+
                         Unit closestMineral = null;
 
                         //find the closest mineral
