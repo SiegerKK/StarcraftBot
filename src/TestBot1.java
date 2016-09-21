@@ -16,7 +16,7 @@ public class TestBot1 extends DefaultBWListener {
 
     private Map<String, Integer> botsUnits;
     private Map<Unit, Integer> refineries;
-    private ArrayList<String> buildings;
+    private ArrayList<Unit> buildings;
     private ArrayList<Unit> builders;
     private Position enemyBasePosition;
 
@@ -91,8 +91,8 @@ public class TestBot1 extends DefaultBWListener {
         //---------//
         int i = 0;
         game.drawTextScreen(200, 25, "Buildings:");
-        for (String buildingName : buildings){
-            game.drawTextScreen(220, 40 + (i * 15), buildingName + " - " + builders.get(i));
+        for (Unit buildingName : buildings){
+            game.drawTextScreen(220, 40 + (i * 15), buildingName.getType() + " - " + builders.get(i));
             i++;
         }
         //---------//
@@ -143,7 +143,7 @@ public class TestBot1 extends DefaultBWListener {
                 for (Unit unit : builders) {
                     if (unit.isIdle() || unit.isGatheringMinerals() || unit.isGatheringGas()) {
                         //----------//
-                        if(buildings.get(builders.indexOf(unit)).equals("Refinery")){
+                        if(buildings.get(builders.indexOf(unit)).getType().equals(UnitType.Terran_Refinery)){
                             refineries.put(unit, 0);
                         }
                         //----------//
@@ -203,57 +203,61 @@ public class TestBot1 extends DefaultBWListener {
 
                     //SCV builds Suply
                     boolean buildingSuply = false;
-                    for (String buildingName : buildings) {
-                        if (buildingName.equals("Suply Depot")) buildingSuply = true;
+                    for (Unit buildingName : buildings) {
+                        if (buildingName.getType().equals(UnitType.Terran_Supply_Depot)) buildingSuply = true;
                     }
                     if ((!buildingSuply) && (self.supplyTotal() - self.supplyUsed() <= 2) && (self.minerals() >= 100)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Suply_Depot - ");
                         boolean result = myUnit.build(UnitType.Terran_Supply_Depot, buildTile);
+                        Unit building = myUnit.getTarget();
                         System.out.print(result + " " + buildTile.toString() + "\n");
-                        buildings.add("Suply Depot");
+                        buildings.add(building);
                         builders.add(myUnit);
                     }
 
                     //SCV builds Barrack
                     boolean buildingBarracks = false;
-                    for (String buildingName : buildings) {
-                        if (buildingName.equals("Barracks")) buildingBarracks = true;
+                    for (Unit buildingName : buildings) {
+                        if (buildingName.getType().equals(UnitType.Terran_Barracks)) buildingBarracks = true;
                     }
                     if (((!botsUnits.containsKey("Barracks")) || (botsUnits.get("Barracks") < 4)) && (!buildingBarracks) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Barracks, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Barrackss - ");
                         boolean result = myUnit.build(UnitType.Terran_Barracks, buildTile);
+                        Unit building = myUnit.getTarget();
                         System.out.print(result + " " + buildTile.toString() + "\n");
-                        buildings.add("Barracks");
+                        buildings.add(building);
                         builders.add(myUnit);
                     }
 
                     //SCV builds Refinery
                     boolean buildingRefinery = false;
-                    for (String buildingName : buildings) {
-                        if (buildingName.equals("Refinery")) buildingRefinery = true;
+                    for (Unit buildingName : buildings) {
+                        if (buildingName.getType().equals(UnitType.Terran_Refinery)) buildingRefinery = true;
                     }
                     if ((botsUnits.get("Refinery") < botsUnits.get("Comand Center")) && (!buildingRefinery) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 100)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Refinery, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Refinery - ");
                         boolean result = myUnit.build(UnitType.Terran_Refinery, buildTile);
+                        Unit building = myUnit.getTarget();
                         System.out.print(result + " " + buildTile.toString() + "\n");
-                        buildings.add("Refinery");
+                        buildings.add(building);
                         builders.add(myUnit);
                     }
 
                     //SCV builds Academy
                     boolean buildingAcademy = false;
-                    for (String buildingName : buildings) {
-                        if (buildingName.equals("Academy")) buildingAcademy = true;
+                    for (Unit buildingName : buildings) {
+                        if (buildingName.getType().equals(UnitType.Terran_Academy)) buildingAcademy = true;
                     }
                     if ((botsUnits.get("Academy") < 1) && (!buildingAcademy) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Academy, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Academy - ");
                         boolean result = myUnit.build(UnitType.Terran_Academy, buildTile);
+                        Unit building = myUnit.getTarget();
                         System.out.print(result + " " + buildTile.toString() + "\n");
-                        buildings.add("Academy");
+                        buildings.add(building);
                         builders.add(myUnit);
                     }
 
@@ -261,7 +265,7 @@ public class TestBot1 extends DefaultBWListener {
                     if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
                         for (Unit refinery : refineries.keySet()) {
                             if (refineries.get(refinery) < 3) {
-                                myUnit.rightClick(refinery);
+                                myUnit.gather(refinery);
                                 break;
                             }
                         }
