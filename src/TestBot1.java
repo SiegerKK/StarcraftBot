@@ -211,7 +211,7 @@ public class TestBot1 extends DefaultBWListener {
                         System.out.print("Terran_SCV try build Terran_Suply_Depot - ");
                         boolean result = myUnit.build(UnitType.Terran_Supply_Depot, buildTile);
                         if(result) {
-                            Unit building = myUnit.getTarget();
+                            Unit building = myUnit.getBuildUnit();
                             System.out.print(result + " " + buildTile.toString() + "\n");
                             buildings.add(building);
                             builders.add(myUnit);
@@ -228,7 +228,7 @@ public class TestBot1 extends DefaultBWListener {
                         System.out.print("Terran_SCV try build Terran_Barrackss - ");
                         boolean result = myUnit.build(UnitType.Terran_Barracks, buildTile);
                         if(result) {
-                            Unit building = myUnit.getTarget();
+                            Unit building = myUnit.getBuildUnit();
                             System.out.print(result + " " + buildTile.toString() + "\n");
                             buildings.add(building);
                             builders.add(myUnit);
@@ -245,7 +245,7 @@ public class TestBot1 extends DefaultBWListener {
                         System.out.print("Terran_SCV try build Terran_Refinery - ");
                         boolean result = myUnit.build(UnitType.Terran_Refinery, buildTile);
                         if(result) {
-                            Unit building = myUnit.getTarget();
+                            Unit building = myUnit.getBuildUnit();
                             System.out.print(result + " " + buildTile.toString() + "\n");
                             buildings.add(building);
                             builders.add(myUnit);
@@ -262,7 +262,7 @@ public class TestBot1 extends DefaultBWListener {
                         System.out.print("Terran_SCV try build Terran_Academy - ");
                         boolean result = myUnit.build(UnitType.Terran_Academy, buildTile);
                         if(result) {
-                            Unit building = myUnit.getTarget();
+                            Unit building = myUnit.getBuildUnit();
                             System.out.print(result + " " + buildTile.toString() + "\n");
                             buildings.add(building);
                             builders.add(myUnit);
