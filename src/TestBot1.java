@@ -118,8 +118,9 @@ public class TestBot1 extends DefaultBWListener {
         builders.clear();
 
         for (UnitType type : workersIsComingToBuild.keySet()){
-            if(!workersIsComingToBuild.get(type).isConstructing())
-                workersIsComingToBuild.replace(type, null);
+            if(workersIsComingToBuild.get(type) != null)
+                if(!workersIsComingToBuild.get(type).isConstructing())
+                    workersIsComingToBuild.replace(type, null);
         }
 
         for (Unit myUnit : self.getUnits()) {
