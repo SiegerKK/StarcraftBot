@@ -261,7 +261,7 @@ public class TestBot1 extends DefaultBWListener {
                     if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
                         for (Unit refinery : refineries.keySet()) {
                             if (refineries.get(refinery) < 3) {
-                                myUnit.gather(refinery);
+                                myUnit.rightClick(refinery);
                                 break;
                             }
                         }
