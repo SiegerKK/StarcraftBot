@@ -119,6 +119,7 @@ public class TestBot1 extends DefaultBWListener {
 
                 if(myUnit.isConstructing()) {
                     Unit building = myUnit.getBuildUnit();
+                    System.out.print("Building - " + building + "\n");
                     buildings.add(building);
                     builders.add(myUnit);
 
@@ -229,7 +230,7 @@ public class TestBot1 extends DefaultBWListener {
                     //SCV builds Suply
                     boolean buildingSuply = false;
                     if(workersIsComingToBuild.get(UnitType.Terran_Supply_Depot)){
-                        System.out.print("TEST: - true\n");
+                        //System.out.print("TEST: - true\n");
                         buildingSuply = true;
                     } else {
                         for (Unit buildingName : buildings) {
