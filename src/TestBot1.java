@@ -210,10 +210,12 @@ public class TestBot1 extends DefaultBWListener {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Suply_Depot - ");
                         boolean result = myUnit.build(UnitType.Terran_Supply_Depot, buildTile);
-                        Unit building = myUnit.getTarget();
-                        System.out.print(result + " " + buildTile.toString() + "\n");
-                        buildings.add(building);
-                        builders.add(myUnit);
+                        if(result) {
+                            Unit building = myUnit.getTarget();
+                            System.out.print(result + " " + buildTile.toString() + "\n");
+                            buildings.add(building);
+                            builders.add(myUnit);
+                        }
                     }
 
                     //SCV builds Barrack
@@ -225,10 +227,12 @@ public class TestBot1 extends DefaultBWListener {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Barracks, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Barrackss - ");
                         boolean result = myUnit.build(UnitType.Terran_Barracks, buildTile);
-                        Unit building = myUnit.getTarget();
-                        System.out.print(result + " " + buildTile.toString() + "\n");
-                        buildings.add(building);
-                        builders.add(myUnit);
+                        if(result) {
+                            Unit building = myUnit.getTarget();
+                            System.out.print(result + " " + buildTile.toString() + "\n");
+                            buildings.add(building);
+                            builders.add(myUnit);
+                        }
                     }
 
                     //SCV builds Refinery
@@ -240,10 +244,12 @@ public class TestBot1 extends DefaultBWListener {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Refinery, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Refinery - ");
                         boolean result = myUnit.build(UnitType.Terran_Refinery, buildTile);
-                        Unit building = myUnit.getTarget();
-                        System.out.print(result + " " + buildTile.toString() + "\n");
-                        buildings.add(building);
-                        builders.add(myUnit);
+                        if(result) {
+                            Unit building = myUnit.getTarget();
+                            System.out.print(result + " " + buildTile.toString() + "\n");
+                            buildings.add(building);
+                            builders.add(myUnit);
+                        }
                     }
 
                     //SCV builds Academy
@@ -255,10 +261,12 @@ public class TestBot1 extends DefaultBWListener {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Academy, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Academy - ");
                         boolean result = myUnit.build(UnitType.Terran_Academy, buildTile);
-                        Unit building = myUnit.getTarget();
-                        System.out.print(result + " " + buildTile.toString() + "\n");
-                        buildings.add(building);
-                        builders.add(myUnit);
+                        if(result) {
+                            Unit building = myUnit.getTarget();
+                            System.out.print(result + " " + buildTile.toString() + "\n");
+                            buildings.add(building);
+                            builders.add(myUnit);
+                        }
                     }
 
                     //Chekicng Refineries
