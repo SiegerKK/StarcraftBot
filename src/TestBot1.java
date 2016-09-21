@@ -325,10 +325,10 @@ public class TestBot1 extends DefaultBWListener {
 
                     //Chekicng Refineries
                     for (Unit refinery : refineries.keySet()) {
-                        //System.out.print("Refinery - " + refinery.getType() + "\n");
+                        System.out.print("Refinery - " + refinery.getType() + "\n");
                     }
 
-                    //if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
+                    if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
                         for (Unit refinery : refineries.keySet()) {
                             if (refineries.get(refinery).size() < 3) {
                                 myUnit.canGather(refinery);
@@ -336,7 +336,7 @@ public class TestBot1 extends DefaultBWListener {
                                 break;
                             }
                         }
-                    //}
+                    }
 
                     //if it's a worker and it's idle, send it to the closest mineral patch
                     if (myUnit.isIdle()) {
