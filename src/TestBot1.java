@@ -202,7 +202,7 @@ public class TestBot1 extends DefaultBWListener {
                 //if there's enough minerals, train an SCV
                 if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
                     if ((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() >= 50)) {
-                        if (botsUnits.get("SCV") / botsUnits.get("Comand Center") < 12) {
+                        if (botsUnits.get("SCV") / botsUnits.get("Comand Center") < 15) {
                             boolean train = myUnit.train(UnitType.Terran_SCV);
                         }
                     }
