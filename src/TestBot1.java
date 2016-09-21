@@ -122,6 +122,9 @@ public class TestBot1 extends DefaultBWListener {
                 if(workersIsComingToBuild.get(type).isIdle())
                     workersIsComingToBuild.replace(type, null);
         }
+        for (Unit refinery : refineries.keySet()){
+            refineries.replace(refinery, 0);
+        }
 
         for (Unit myUnit : self.getUnits()) {
             if(myUnit.getType() == UnitType.Terran_SCV) {
@@ -151,6 +154,9 @@ public class TestBot1 extends DefaultBWListener {
                 //if SCV is gathering gas
                 if(myUnit.isGatheringGas()){
                     //System.out.print("Main order - " + myUnit.getOrderTarget().getType() + " | Second order - " + myUnit.getSecondaryOrder() + "\n");
+                    if(myUnit.getOrderTarget().getType().equals(UnitType.Terran_Refinery)){
+                        refineries.replace(myUnit.getOrderTarget(), refineries.get(myUnit.getOrderTarget()) + 1);
+                    }
                 }
             } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
@@ -307,14 +313,14 @@ public class TestBot1 extends DefaultBWListener {
                     //Chekicng Refineries
                     if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
                         for (Unit refinery : refineries.keySet()) {
-                            if(!refinery.isBeingGathered()){
-                                myUnit.gather(refinery);
-                                break;
-                            }
-                            /*if (refineries.get(refinery) < 3) {
+                            /*if(!refinery.isBeingGathered()){
                                 myUnit.gather(refinery);
                                 break;
                             }*/
+                            if (refineries.get(refinery) < 3) {
+                                myUnit.gather(refinery);
+                                break;
+                            }
                         }
                     }
 
