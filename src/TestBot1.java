@@ -150,7 +150,7 @@ public class TestBot1 extends DefaultBWListener {
                 }
                 //if SCV is gathering gas
                 if(myUnit.isGatheringGas()){
-                    System.out.print("Main order - " + myUnit.getOrderTarget() + " | Second order - " + myUnit.getSecondaryOrder());
+                    System.out.print("Main order - " + myUnit.getOrderTarget() + " | Second order - " + myUnit.getSecondaryOrder() + "\n");
                 }
             } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
