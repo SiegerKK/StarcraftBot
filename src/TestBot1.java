@@ -131,18 +131,18 @@ public class TestBot1 extends DefaultBWListener {
                     } else {
                         buildings.add(building);
                         builders.add(myUnit);
-                    }
 
-                    if(building.getType().equals(UnitType.Terran_Command_Center))
-                        workersIsComingToBuild.replace(UnitType.Terran_Command_Center, false);
-                    else if(building.getType().equals(UnitType.Terran_Refinery))
-                        workersIsComingToBuild.replace(UnitType.Terran_Refinery, false);
-                    else if(building.getType().equals(UnitType.Terran_Supply_Depot))
-                        workersIsComingToBuild.replace(UnitType.Terran_Supply_Depot, false);
-                    else if(building.getType().equals(UnitType.Terran_Barracks))
-                        workersIsComingToBuild.replace(UnitType.Terran_Barracks, false);
-                    else if(building.getType().equals(UnitType.Terran_Academy))
-                        workersIsComingToBuild.replace(UnitType.Terran_Academy, false);
+                        if(building.getType().equals(UnitType.Terran_Command_Center))
+                            workersIsComingToBuild.replace(UnitType.Terran_Command_Center, false);
+                        else if(building.getType().equals(UnitType.Terran_Refinery))
+                            workersIsComingToBuild.replace(UnitType.Terran_Refinery, false);
+                        else if(building.getType().equals(UnitType.Terran_Supply_Depot))
+                            workersIsComingToBuild.replace(UnitType.Terran_Supply_Depot, false);
+                        else if(building.getType().equals(UnitType.Terran_Barracks))
+                            workersIsComingToBuild.replace(UnitType.Terran_Barracks, false);
+                        else if(building.getType().equals(UnitType.Terran_Academy))
+                            workersIsComingToBuild.replace(UnitType.Terran_Academy, false);
+                    }
                 }
 
                 /*if(myUnit.isGatheringGas()){
@@ -304,7 +304,7 @@ public class TestBot1 extends DefaultBWListener {
                             if (buildingName.getType().equals(UnitType.Terran_Academy)) buildingAcademy = true;
                         }
                     }
-                    if ((botsUnits.get("Academy") < 1) && (!buildingAcademy) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
+                    if ((myUnit.canBuild(UnitType.Terran_Academy)) && (botsUnits.get("Academy") < 1) && (!buildingAcademy) && (botsUnits.get("SCV") >= 10) && (self.minerals() >= 150)) {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Academy, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Academy - ");
                         boolean result = myUnit.build(UnitType.Terran_Academy, buildTile);
