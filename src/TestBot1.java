@@ -99,7 +99,7 @@ public class TestBot1 extends DefaultBWListener {
         int i = 0;
         game.drawTextScreen(200, 25, "Buildings:");
         for (Unit buildingName : buildings){
-            game.drawTextScreen(220, 40 + (i * 15), buildingName.getType() + " - " + builders.get(i));
+            game.drawTextScreen(220, 40 + (i * 15), buildingName.getType() + " - " + builders.get(i).getType());
             i++;
         }
         //---------//
@@ -229,6 +229,7 @@ public class TestBot1 extends DefaultBWListener {
                     //SCV builds Suply
                     boolean buildingSuply = false;
                     if(workersIsComingToBuild.get(UnitType.Terran_Supply_Depot)){
+                        System.out.print("TEST: - true\n");
                         buildingSuply = true;
                     } else {
                         for (Unit buildingName : buildings) {
