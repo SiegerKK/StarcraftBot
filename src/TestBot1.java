@@ -127,6 +127,7 @@ public class TestBot1 extends DefaultBWListener {
             if(myUnit.getType() == UnitType.Terran_SCV) {
                 botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
 
+                //if SCV is constructing
                 if(myUnit.isConstructing()) {
                     Unit building = myUnit.getBuildUnit();
                     if(building == null){
@@ -146,6 +147,10 @@ public class TestBot1 extends DefaultBWListener {
                         else if(building.getType().equals(UnitType.Terran_Academy))
                             workersIsComingToBuild.replace(UnitType.Terran_Academy, null);
                     }
+                }
+                //if SCV is gathering gas
+                if(myUnit.isGatheringGas()){
+                    System.out.print("Main order - " + myUnit.getOrderTarget() + " | Second order - " + myUnit.getSecondaryOrder());
                 }
             } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
@@ -173,7 +178,7 @@ public class TestBot1 extends DefaultBWListener {
             //---//
             if(!isBuilder) {
                 units.append(myUnit.getType()).append(" ").append(myUnit.getTilePosition()).append("\n");
-                
+
                 //---Comand Center
                 //if there's enough minerals, train an SCV
                 if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
