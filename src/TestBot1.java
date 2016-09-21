@@ -169,6 +169,7 @@ public class TestBot1 extends DefaultBWListener {
                             for (Unit worker : self.getUnits()){
                                 if(worker.getType().isWorker()){
                                     worker.gather(myUnit);
+                                    System.out.print("Try to send SCV to gathering gas\n");
                                 }
                             }
                         }
@@ -252,6 +253,25 @@ public class TestBot1 extends DefaultBWListener {
                         buildings.add("Academy");
                         builders.add(myUnit);
                     }
+
+                    //if it's a worker and it's idle, send it to the closest mineral patch
+                    if (myUnit.isIdle()) {
+                        Unit closestMineral = null;
+
+                        //find the closest mineral
+                        for (Unit neutralUnit : game.neutral().getUnits()) {
+                            if (neutralUnit.getType().isMineralField()) {
+                                if (closestMineral == null || myUnit.getDistance(neutralUnit) < myUnit.getDistance(closestMineral)) {
+                                    closestMineral = neutralUnit;
+                                }
+                            }
+                        }
+
+                        //if a mineral patch was found, send the worker to gather it
+                        if (closestMineral != null) {
+                            myUnit.gather(closestMineral, false);
+                        }
+                    }
                 }
                 //---//
 
@@ -263,25 +283,6 @@ public class TestBot1 extends DefaultBWListener {
                     }
                 }
                 //---//
-
-                //if it's a worker and it's idle, send it to the closest mineral patch
-                if (myUnit.getType().isWorker() && myUnit.isIdle()) {
-                    Unit closestMineral = null;
-
-                    //find the closest mineral
-                    for (Unit neutralUnit : game.neutral().getUnits()) {
-                        if (neutralUnit.getType().isMineralField()) {
-                            if (closestMineral == null || myUnit.getDistance(neutralUnit) < myUnit.getDistance(closestMineral)) {
-                                closestMineral = neutralUnit;
-                            }
-                        }
-                    }
-
-                    //if a mineral patch was found, send the worker to gather it
-                    if (closestMineral != null) {
-                        myUnit.gather(closestMineral, false);
-                    }
-                }
             }
         }
 
