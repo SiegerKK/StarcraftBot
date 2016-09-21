@@ -42,6 +42,7 @@ public class TestBot1 extends DefaultBWListener {
         botsUnits.put("SCV", 4);
         botsUnits.put("Marine", 0);
         botsUnits.put("Comand Center", 1);
+        botsUnits.put("Refinery", 0);
         botsUnits.put("Suply Depot", 0);
         botsUnits.put("Barracks", 0);
         botsUnits.put("Academy", 0);
