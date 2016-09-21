@@ -150,7 +150,7 @@ public class TestBot1 extends DefaultBWListener {
                 }
                 //if SCV is gathering gas
                 if(myUnit.isGatheringGas()){
-                    System.out.print("Main order - " + myUnit.getOrderTarget().getType() + " | Second order - " + myUnit.getSecondaryOrder() + "\n");
+                    //System.out.print("Main order - " + myUnit.getOrderTarget().getType() + " | Second order - " + myUnit.getSecondaryOrder() + "\n");
                 }
             } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
@@ -305,14 +305,18 @@ public class TestBot1 extends DefaultBWListener {
                     //----------//
 
                     //Chekicng Refineries
-                    /*if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
+                    if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
                         for (Unit refinery : refineries.keySet()) {
-                            if (refineries.get(refinery) < 3) {
+                            if(!refinery.isBeingGathered()){
                                 myUnit.gather(refinery);
                                 break;
                             }
+                            /*if (refineries.get(refinery) < 3) {
+                                myUnit.gather(refinery);
+                                break;
+                            }*/
                         }
-                    }*/
+                    }
 
                     //if it's a worker and it's idle, send it to the closest mineral patch
                     if (myUnit.isIdle()) {
