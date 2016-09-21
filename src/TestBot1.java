@@ -16,7 +16,7 @@ public class TestBot1 extends DefaultBWListener {
 
     private Map<String, Integer> botsUnits;
     private Map<Unit, Integer> refineries;
-    private Map<UnitType, Boolean> workersIsComingToBuild;
+    private Map<UnitType, Unit> workersIsComingToBuild;
     private ArrayList<Unit> buildings;
     private ArrayList<Unit> builders;
     private Position enemyBasePosition;
@@ -40,7 +40,7 @@ public class TestBot1 extends DefaultBWListener {
         //----------//
         botsUnits = new HashMap<String, Integer>();
         refineries = new HashMap<Unit, Integer>();
-        workersIsComingToBuild = new HashMap<UnitType, Boolean>();
+        workersIsComingToBuild = new HashMap<UnitType, Unit>();
 
         botsUnits.put("SCV", 4);
         botsUnits.put("Marine", 0);
@@ -50,11 +50,11 @@ public class TestBot1 extends DefaultBWListener {
         botsUnits.put("Barracks", 0);
         botsUnits.put("Academy", 0);
 
-        workersIsComingToBuild.put(UnitType.Terran_Command_Center, false);
-        workersIsComingToBuild.put(UnitType.Terran_Refinery, false);
-        workersIsComingToBuild.put(UnitType.Terran_Supply_Depot, false);
-        workersIsComingToBuild.put(UnitType.Terran_Barracks, false);
-        workersIsComingToBuild.put(UnitType.Terran_Academy, false);
+        workersIsComingToBuild.put(UnitType.Terran_Command_Center, null);
+        workersIsComingToBuild.put(UnitType.Terran_Refinery, null);
+        workersIsComingToBuild.put(UnitType.Terran_Supply_Depot, null);
+        workersIsComingToBuild.put(UnitType.Terran_Barracks, null);
+        workersIsComingToBuild.put(UnitType.Terran_Academy, null);
 
         buildings = new ArrayList<>();
         builders = new ArrayList<>();
@@ -133,15 +133,15 @@ public class TestBot1 extends DefaultBWListener {
                         builders.add(myUnit);
 
                         if(building.getType().equals(UnitType.Terran_Command_Center))
-                            workersIsComingToBuild.replace(UnitType.Terran_Command_Center, false);
+                            workersIsComingToBuild.replace(UnitType.Terran_Command_Center, null);
                         else if(building.getType().equals(UnitType.Terran_Refinery))
-                            workersIsComingToBuild.replace(UnitType.Terran_Refinery, false);
+                            workersIsComingToBuild.replace(UnitType.Terran_Refinery, null);
                         else if(building.getType().equals(UnitType.Terran_Supply_Depot))
-                            workersIsComingToBuild.replace(UnitType.Terran_Supply_Depot, false);
+                            workersIsComingToBuild.replace(UnitType.Terran_Supply_Depot, null);
                         else if(building.getType().equals(UnitType.Terran_Barracks))
-                            workersIsComingToBuild.replace(UnitType.Terran_Barracks, false);
+                            workersIsComingToBuild.replace(UnitType.Terran_Barracks, null);
                         else if(building.getType().equals(UnitType.Terran_Academy))
-                            workersIsComingToBuild.replace(UnitType.Terran_Academy, false);
+                            workersIsComingToBuild.replace(UnitType.Terran_Academy, null);
                     }
                 }
 
@@ -239,8 +239,7 @@ public class TestBot1 extends DefaultBWListener {
 
                     //SCV builds Suply
                     boolean buildingSuply = false;
-                    if(workersIsComingToBuild.get(UnitType.Terran_Supply_Depot)){
-                        //System.out.print("TEST: - true\n");
+                    if(workersIsComingToBuild.get(UnitType.Terran_Supply_Depot) != null){
                         buildingSuply = true;
                     } else {
                         for (Unit buildingName : buildings) {
@@ -253,13 +252,13 @@ public class TestBot1 extends DefaultBWListener {
                         boolean result = myUnit.build(UnitType.Terran_Supply_Depot, buildTile);
                         System.out.print(result + " " + buildTile.toString() + "\n");
                         if(result) {
-                            workersIsComingToBuild.replace(UnitType.Terran_Supply_Depot, true);
+                            workersIsComingToBuild.replace(UnitType.Terran_Supply_Depot, myUnit);
                         }
                     }
 
                     //SCV builds Barrack
                     boolean buildingBarracks = false;
-                    if(workersIsComingToBuild.get(UnitType.Terran_Barracks)){
+                    if(workersIsComingToBuild.get(UnitType.Terran_Barracks) != null){
                         buildingBarracks = true;
                     } else {
                         for (Unit buildingName : buildings) {
@@ -272,13 +271,13 @@ public class TestBot1 extends DefaultBWListener {
                         boolean result = myUnit.build(UnitType.Terran_Barracks, buildTile);
                         System.out.print(result + " " + buildTile.toString() + "\n");
                         if(result) {
-                            workersIsComingToBuild.replace(UnitType.Terran_Barracks, true);
+                            workersIsComingToBuild.replace(UnitType.Terran_Barracks, myUnit);
                         }
                     }
 
                     //SCV builds Refinery
                     boolean buildingRefinery = false;
-                    if(workersIsComingToBuild.get(UnitType.Terran_Refinery)){
+                    if(workersIsComingToBuild.get(UnitType.Terran_Refinery) != null){
                         buildingRefinery = true;
                     } else {
                         for (Unit buildingName : buildings) {
@@ -291,13 +290,13 @@ public class TestBot1 extends DefaultBWListener {
                         boolean result = myUnit.build(UnitType.Terran_Refinery, buildTile);
                         System.out.print(result + " " + buildTile.toString() + "\n");
                         if(result) {
-                            workersIsComingToBuild.replace(UnitType.Terran_Refinery, true);
+                            workersIsComingToBuild.replace(UnitType.Terran_Refinery, myUnit);
                         }
                     }
 
                     //SCV builds Academy
                     boolean buildingAcademy = false;
-                    if(workersIsComingToBuild.get(UnitType.Terran_Academy)){
+                    if(workersIsComingToBuild.get(UnitType.Terran_Academy) != null){
                         buildingAcademy = true;
                     } else {
                         for (Unit buildingName : buildings) {
@@ -310,21 +309,21 @@ public class TestBot1 extends DefaultBWListener {
                         boolean result = myUnit.build(UnitType.Terran_Academy, buildTile);
                         System.out.print(result + " " + buildTile.toString() + "\n");
                         if(result) {
-                            workersIsComingToBuild.replace(UnitType.Terran_Academy, true);
+                            workersIsComingToBuild.replace(UnitType.Terran_Academy, myUnit);
                         }
                     }
 
                     //----------//
 
                     //Chekicng Refineries
-                    if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
+                    /*if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
                         for (Unit refinery : refineries.keySet()) {
                             if (refineries.get(refinery) < 3) {
                                 myUnit.gather(refinery);
                                 break;
                             }
                         }
-                    }
+                    }*/
 
                     //if it's a worker and it's idle, send it to the closest mineral patch
                     if (myUnit.isIdle()) {
