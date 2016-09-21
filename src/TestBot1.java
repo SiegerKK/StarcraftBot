@@ -159,13 +159,18 @@ public class TestBot1 extends DefaultBWListener {
                             workersIsComingToBuild.replace(UnitType.Terran_Academy, null);
                     }
                 }
-                //if SCV is gathering gas
-                /*if(myUnit.isGatheringGas()){
-                    //System.out.print("Main order - " + myUnit.getOrderTarget().getType() + " | Second order - " + myUnit.getSecondaryOrder() + "\n");
-                    if(myUnit.getOrderTarget().getType().equals(UnitType.Terran_Refinery)){
-                        refineries.replace(myUnit.getOrderTarget(), refineries.get(myUnit.getOrderTarget()) + 1);
+
+                //----------//
+                for (ArrayList<Unit> workers : refineries.values()){
+                    for (Unit worker : workers){
+                        if (!worker.isGatheringGas() && !worker.isCarryingGas()){
+                            workers.remove(worker);
+                        }
                     }
-                }*/
+                }
+                //----------//
+
+
             } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
             } else if(myUnit.getType() == UnitType.Terran_Command_Center) {
@@ -323,15 +328,15 @@ public class TestBot1 extends DefaultBWListener {
                         //System.out.print("Refinery - " + refinery.getType() + "\n");
                     }
 
-                    if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
+                    //if(myUnit.isIdle() || myUnit.isGatheringMinerals()) {
                         for (Unit refinery : refineries.keySet()) {
                             if (refineries.get(refinery).size() < 3) {
-                                myUnit.rightClick(refinery);
+                                myUnit.canGather(refinery);
                                 refineries.get(refinery).add(myUnit);
                                 break;
                             }
                         }
-                    }
+                    //}
 
                     //if it's a worker and it's idle, send it to the closest mineral patch
                     if (myUnit.isIdle()) {
