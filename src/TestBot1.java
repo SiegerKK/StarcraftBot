@@ -109,6 +109,13 @@ public class TestBot1 extends DefaultBWListener {
         for (Unit myUnit : self.getUnits()) {
             if(myUnit.getType() == UnitType.Terran_SCV) {
                 botsUnits.replace("SCV", botsUnits.get("SCV") + 1);
+
+                if(myUnit.isConstructing()) {
+                    Unit building = myUnit.getBuildUnit();
+                    buildings.add(building);
+                    builders.add(myUnit);
+                }
+
                 /*if(myUnit.isGatheringGas()){
                     System.out.print("Gas gathering from - " + myUnit.getTarget().getType() + "\n");
                 }*/
@@ -210,12 +217,12 @@ public class TestBot1 extends DefaultBWListener {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Supply_Depot, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Suply_Depot - ");
                         boolean result = myUnit.build(UnitType.Terran_Supply_Depot, buildTile);
-                        if(result) {
+                        System.out.print(result + " " + buildTile.toString() + "\n");
+                        /*if(result) {
                             Unit building = myUnit.getBuildUnit();
-                            System.out.print(result + " " + buildTile.toString() + "\n");
                             buildings.add(building);
                             builders.add(myUnit);
-                        }
+                        }*/
                     }
 
                     //SCV builds Barrack
@@ -227,12 +234,12 @@ public class TestBot1 extends DefaultBWListener {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Barracks, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Barrackss - ");
                         boolean result = myUnit.build(UnitType.Terran_Barracks, buildTile);
-                        if(result) {
+                        System.out.print(result + " " + buildTile.toString() + "\n");
+                        /*if(result) {
                             Unit building = myUnit.getBuildUnit();
-                            System.out.print(result + " " + buildTile.toString() + "\n");
                             buildings.add(building);
                             builders.add(myUnit);
-                        }
+                        }*/
                     }
 
                     //SCV builds Refinery
@@ -244,12 +251,12 @@ public class TestBot1 extends DefaultBWListener {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Refinery, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Refinery - ");
                         boolean result = myUnit.build(UnitType.Terran_Refinery, buildTile);
-                        if(result) {
+                        System.out.print(result + " " + buildTile.toString() + "\n");
+                        /*if(result) {
                             Unit building = myUnit.getBuildUnit();
-                            System.out.print(result + " " + buildTile.toString() + "\n");
                             buildings.add(building);
                             builders.add(myUnit);
-                        }
+                        }*/
                     }
 
                     //SCV builds Academy
@@ -261,12 +268,12 @@ public class TestBot1 extends DefaultBWListener {
                         TilePosition buildTile = getBuildTile(myUnit, UnitType.Terran_Academy, self.getStartLocation());
                         System.out.print("Terran_SCV try build Terran_Academy - ");
                         boolean result = myUnit.build(UnitType.Terran_Academy, buildTile);
-                        if(result) {
+                        System.out.print(result + " " + buildTile.toString() + "\n");
+                        /*if(result) {
                             Unit building = myUnit.getBuildUnit();
-                            System.out.print(result + " " + buildTile.toString() + "\n");
                             buildings.add(building);
                             builders.add(myUnit);
-                        }
+                        }*/
                     }
 
                     //Chekicng Refineries
