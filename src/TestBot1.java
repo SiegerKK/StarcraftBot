@@ -127,7 +127,7 @@ public class TestBot1 extends DefaultBWListener {
                 if(myUnit.isConstructing()) {
                     Unit building = myUnit.getBuildUnit();
                     if(building == null){
-                        System.out.print("Building - null\n");
+                        //System.out.print("Building - null\n");
                     } else {
                         buildings.add(building);
                         builders.add(myUnit);
@@ -183,9 +183,19 @@ public class TestBot1 extends DefaultBWListener {
 
         StringBuilder units = new StringBuilder("Units:\n");
         for(String unitType : botsUnits.keySet()){
-            units.append("\t" + unitType + ": " + botsUnits.get(unitType) + "\n");
+            if(botsUnits.get(unitType) > 0)
+                units.append("\t" + unitType + ": " + botsUnits.get(unitType) + "\n");
         }
         game.drawTextScreen(10, 25, units.toString());
+
+        //----------//
+        StringBuilder builds = new StringBuilder("Builds:\n");
+        for(UnitType unitType : workersIsComingToBuild.keySet()){
+            if(workersIsComingToBuild.get(unitType) != null)
+                units.append("\t" + unitType + ": " + workersIsComingToBuild.get(unitType) + "\n");
+        }
+        game.drawTextScreen(10, 25, units.toString());
+        //----------//
 
         int i = 0;
         game.drawTextScreen(200, 25, "Buildings:");
@@ -212,7 +222,7 @@ public class TestBot1 extends DefaultBWListener {
                 //---Comand Center
                 //if there's enough minerals, train an SCV
                 if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
-                    if ((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() >= 50) && (!myUnit.canCancelTrainSlot(2))) {
+                    if ((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() >= 50) && (!myUnit.canCancelTrainSlot(0))) {
                         if (botsUnits.get("SCV") / botsUnits.get("Comand Center") < 16) {
                             boolean train = myUnit.train(UnitType.Terran_SCV);
                         }
@@ -372,7 +382,7 @@ public class TestBot1 extends DefaultBWListener {
 
                 //---Marine
                 if (myUnit.getType() == UnitType.Terran_Marine) {
-                    if(botsUnits.get("Marine") >= 36){
+                    if(botsUnits.get("Marine") >= 24){
                         if(myUnit.isIdle())
                             myUnit.attack(enemyBasePosition);
                     }
@@ -381,7 +391,7 @@ public class TestBot1 extends DefaultBWListener {
 
                 //---Medic
                 if (myUnit.getType() == UnitType.Terran_Medic) {
-                    if(botsUnits.get("Marine") >= 36){
+                    if(botsUnits.get("Marine") >= 24){
                         if(myUnit.isIdle())
                             myUnit.attack(enemyBasePosition);
                     }
