@@ -210,18 +210,9 @@ public class TestBot1 extends DefaultBWListener {
                 //---//
 
                 //---Refinery
-                /*if(myUnit.getType() == UnitType.Terran_Refinery){
-                    for (Unit unit : refineries.keySet()){
-                        if(myUnit.equals(unit) && (refineries.get(unit) < 3)){
-                            for (Unit worker : self.getUnits()){
-                                if(worker.getType().isWorker()){
-                                    worker.gather(myUnit);
-                                    System.out.print("Try to send SCV to gathering gas\n");
-                                }
-                            }
-                        }
-                    }
-                }*/
+                if(myUnit.getType() == UnitType.Terran_Refinery){
+                    //nothing
+                }
                 //---//
 
                 //---Barracks
