@@ -231,10 +231,11 @@ public class TestBot1 extends DefaultBWListener {
                 if ((myUnit.getType() == UnitType.Terran_Barracks)) {
                     boolean train = false;
                     if(!myUnit.canCancelTrainSlot(0)) {
-                        /*if ((self.minerals() >= 50) && (self.gas() >= 25) &&
-                                ((double)(botsUnits.get("Marine") / botsUnits.get("Medic")) > 3) && (myUnit.canTrain(UnitType.Terran_Medic))){
+                        if ((self.minerals() >= 50) && (self.gas() >= 25) &&
+                                (botsUnits.get("Marine") / botsUnits.get("Medic") > 3) &&
+                                (myUnit.canTrain(UnitType.Terran_Medic))){
                             train = myUnit.train(UnitType.Terran_Medic);
-                        } else*/ if ((self.minerals() >= 50)) {
+                        } else if ((self.minerals() >= 50)) {
                             train = myUnit.train(UnitType.Terran_Marine);
                         }
                     }
