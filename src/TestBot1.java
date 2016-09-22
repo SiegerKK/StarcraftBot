@@ -229,8 +229,14 @@ public class TestBot1 extends DefaultBWListener {
                 //---Barracks
                 //if there's enough minerals, train an Marines
                 if ((myUnit.getType() == UnitType.Terran_Barracks)) {
-                    if((self.minerals() >= 50) && (!myUnit.canCancelTrainSlot(0))) {
-                        boolean train = myUnit.train(UnitType.Terran_Marine);
+                    boolean train = false;
+                    if(!myUnit.canCancelTrainSlot(0)) {
+                        if ((self.minerals() >= 50) && (self.gas() >= 25) &&
+                                (double)(botsUnits.get("Marine") / botsUnits.get("Medic")) > 3){
+                            train = myUnit.train(UnitType.Terran_Medic);
+                        } else if ((self.minerals() >= 50)) {
+                            train = myUnit.train(UnitType.Terran_Marine);
+                        }
                     }
                 }
                 //---//
@@ -365,6 +371,15 @@ public class TestBot1 extends DefaultBWListener {
 
                 //---Marine
                 if (myUnit.getType() == UnitType.Terran_Marine) {
+                    if(botsUnits.get("Marine") >= 36){
+                        if(myUnit.isIdle())
+                            myUnit.attack(enemyBasePosition);
+                    }
+                }
+                //---//
+
+                //---Medic
+                if (myUnit.getType() == UnitType.Terran_Medic) {
                     if(botsUnits.get("Marine") >= 36){
                         if(myUnit.isIdle())
                             myUnit.attack(enemyBasePosition);
