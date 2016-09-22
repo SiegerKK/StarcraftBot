@@ -192,9 +192,9 @@ public class TestBot1 extends DefaultBWListener {
         StringBuilder builds = new StringBuilder("Builds:\n");
         for(UnitType unitType : workersIsComingToBuild.keySet()){
             if(workersIsComingToBuild.get(unitType) != null)
-                units.append("\t" + unitType + ": " + workersIsComingToBuild.get(unitType) + "\n");
+                builds.append("\t" + unitType + ": " + workersIsComingToBuild.get(unitType) + "\n");
         }
-        game.drawTextScreen(10, 25, units.toString());
+        game.drawTextScreen(100, 200, builds.toString());
         //----------//
 
         int i = 0;
