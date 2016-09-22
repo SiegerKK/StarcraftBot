@@ -44,6 +44,8 @@ public class TestBot1 extends DefaultBWListener {
 
         botsUnits.put("SCV", 4);
         botsUnits.put("Marine", 0);
+        botsUnits.put("Medic", 0);
+
         botsUnits.put("Comand Center", 1);
         botsUnits.put("Refinery", 0);
         botsUnits.put("Suply Depot", 0);
@@ -91,23 +93,11 @@ public class TestBot1 extends DefaultBWListener {
 
     @Override
     public void onFrame() {
-        //game.setTextSize(10);
-        game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
-        game.drawTextScreen(160, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies");
-
-        //---------//
-        int i = 0;
-        game.drawTextScreen(200, 25, "Buildings:");
-        for (Unit buildingName : buildings){
-            game.drawTextScreen(220, 40 + (i * 15), buildingName.getType() + " - " + builders.get(i).getType());
-            i++;
-        }
-        //---------//
-
-        StringBuilder units = new StringBuilder("My units:\n");
+        //---------//--Calculate-units--//----------//
 
         botsUnits.replace("SCV", 0);
         botsUnits.replace("Marine", 0);
+        botsUnits.replace("Medic", 0);
         botsUnits.replace("Comand Center", 0);
         botsUnits.replace("Refinery", 0);
         botsUnits.replace("Suply Depot", 0);
@@ -127,7 +117,6 @@ public class TestBot1 extends DefaultBWListener {
                 if(worker == null)
                     refineries.get(refinery).remove(worker);
             }
-            //refineries.replace(refinery, 0);
         }
 
         for (Unit myUnit : self.getUnits()) {
@@ -173,6 +162,8 @@ public class TestBot1 extends DefaultBWListener {
 
             } else if(myUnit.getType() == UnitType.Terran_Marine) {
                 botsUnits.replace("Marine", botsUnits.get("Marine") + 1);
+            } else if(myUnit.getType() == UnitType.Terran_Medic) {
+                botsUnits.replace("Medic", botsUnits.get("Medic") + 1);
             } else if(myUnit.getType() == UnitType.Terran_Command_Center) {
                 botsUnits.replace("Comand Center", botsUnits.get("Comand Center") + 1);
             } else if(myUnit.getType() == UnitType.Terran_Refinery) {
@@ -186,6 +177,27 @@ public class TestBot1 extends DefaultBWListener {
             }
         }
 
+        //---------//
+        game.drawTextScreen(10, 10, "Playing as " + self.getName() + " - " + self.getRace());
+        game.drawTextScreen(160, 10, "Resources: " + self.minerals() + " minerals | " + self.gas() + " gas | " + self.supplyTotal() + " suplies");
+
+        StringBuilder units = new StringBuilder("Units:\n");
+        for(String unitType : botsUnits.keySet()){
+            units.append("\t" + unitType + ": " + botsUnits.get(unitType) + "\n");
+        }
+        game.drawTextScreen(10, 25, units.toString());
+
+        int i = 0;
+        game.drawTextScreen(200, 25, "Buildings:");
+        for (Unit buildingName : buildings){
+            game.drawTextScreen(220, 40 + (i * 15), buildingName.getType() + " - " + builders.get(i).getType());
+            i++;
+        }
+        //---------//
+
+
+        //---------//-------------------//----------//
+
         //iterate through my units
         for (Unit myUnit : self.getUnits()) {
             //If unit is busy for building - don't touch it
@@ -196,13 +208,12 @@ public class TestBot1 extends DefaultBWListener {
             }
             //---//
             if(!isBuilder) {
-                units.append(myUnit.getType()).append(" ").append(myUnit.getTilePosition()).append("\n");
 
                 //---Comand Center
                 //if there's enough minerals, train an SCV
                 if ((myUnit.getType() == UnitType.Terran_Command_Center)) {
-                    if ((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() >= 50)) {
-                        if (botsUnits.get("SCV") / botsUnits.get("Comand Center") < 15) {
+                    if ((self.supplyTotal() - self.supplyUsed() > 2) && (self.minerals() >= 50) && (!myUnit.canCancelTrainSlot(2))) {
+                        if (botsUnits.get("SCV") / botsUnits.get("Comand Center") < 16) {
                             boolean train = myUnit.train(UnitType.Terran_SCV);
                         }
                     }
@@ -362,9 +373,6 @@ public class TestBot1 extends DefaultBWListener {
                 //---//
             }
         }
-
-        //draw my units on screen
-        game.drawTextScreen(10, 25, units.toString());
     }
 
     public static void main(String[] args) {
